@@ -14,6 +14,7 @@ class SaveProductInGoogleMerchant
 
         if ($productGM) {
             ProductsUpdateService::update($productData->sku, $productData);
+
             return;
         }
 

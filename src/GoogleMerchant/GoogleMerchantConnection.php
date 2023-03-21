@@ -2,8 +2,8 @@
 
 namespace Descom\B2b\Core\App\Feeds\GoogleMerchant;
 
-use GuzzleHttp\Client as GuzzleHttpClient;
 use Google\Client as GoogleClient;
+use GuzzleHttp\Client as GuzzleHttpClient;
 
 //Hacerla singleton???
 class GoogleMerchantConnection
@@ -15,7 +15,7 @@ class GoogleMerchantConnection
         $enabled = config('google-merchant.enabled');
         $credentials = config('google-merchant.credentials.path');
 
-        if (!$enabled || !$credentials) {
+        if (! $enabled || ! $credentials) {
             throw new \Exception('Google Merchant is not enabled or credentials are not set');
         }
 
