@@ -1,5 +1,5 @@
 {
-    "name": "descom/skeleton",
+    "name": "descom/descommarket-feeds",
     "description": "Template to generate a Laravel Package",
     "license": "MIT",
     "authors": [
@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "google/apiclient": "^2.12.1",
         "laravel/framework": "^9.0|^10.0"
     },
     "require-dev": {
@@ -22,13 +23,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Descom\\Skeleton\\": "src",
-            "Descom\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Descom\\DescomMarket\\Feeds\\": "src",
+            "Descom\\DescomMarket\\Feeds\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Descom\\Skeleton\\Tests\\": "tests"
+            "Descom\\DescomMarket\\Feeds\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -40,7 +41,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Descom\\Skeleton\\SkeletonServiceProvider"
+                "Descom\\DescomMarket\\Feeds\\DescomMarketFeedsServiceProvider"
             ]
         }
     },
