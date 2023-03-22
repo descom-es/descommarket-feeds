@@ -2,7 +2,6 @@
 
 namespace DescomMarket\Feeds\GoogleMerchant\Services\Products\Helpers;
 
-
 final class ProductsServiceHelper
 {
     /**

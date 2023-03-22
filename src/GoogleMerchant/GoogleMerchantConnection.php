@@ -15,7 +15,7 @@ class GoogleMerchantConnection
         $enabled = config('google-merchant.enabled');
         $credentials = config('google-merchant.credentials.path');
 
-        if (!$enabled || !$credentials) {
+        if (! $enabled || ! $credentials) {
             throw new \Exception('Google Merchant is not enabled or credentials are not set');
         }
 
