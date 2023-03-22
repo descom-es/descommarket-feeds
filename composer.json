@@ -24,8 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "DescomMarket\\Feeds\\": "src",
-            "DescomMarket\\Feeds\\Database\\Factories\\": "database/factories"
+            "DescomMarket\\Feeds\\": "src"
         }
     },
     "autoload-dev": {

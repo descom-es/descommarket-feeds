@@ -2,7 +2,7 @@
 
 namespace DescomMarket\Feeds\GoogleMerchant\Services\Products;
 
-use Descom\B2b\Core\App\Feeds\GoogleMerchant\GoogleMerchantConnection;
+use DescomMarket\Feeds\GoogleMerchant\GoogleMerchantConnection;
 
 class ProductsDeleteService extends GoogleMerchantConnection
 {
