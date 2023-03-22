@@ -1,6 +1,6 @@
 <?php
 
-namespace Descom\DescomMarket\Feeds\GoogleMerchant\Listenters;
+namespace DescomMarket\Feeds\GoogleMerchant\Listenters;
 
 class DeleteProductInGoogleMerchant
 {

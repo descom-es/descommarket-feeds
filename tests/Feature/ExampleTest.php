@@ -1,6 +1,6 @@
 <?php
 
-namespace Descom\DescomMarket\Feeds\Tests\Feature;
+namespace DescomMarket\Feeds\Tests\Feature;
 
 use Descom\DescomMarket\Feeds\Tests\TestCase;
 

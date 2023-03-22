@@ -1,6 +1,6 @@
 <?php
 
-namespace Descom\DescomMarket\Feeds\GoogleMerchant\Listenters;
+namespace DescomMarket\Feeds\GoogleMerchant\Listenters;
 
 use Descom\DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsCreateService;
 

@@ -1,6 +1,6 @@
 {
     "name": "descom/descommarket-feeds",
-    "description": "Template to generate a Laravel Package",
+    "description": "DescomMarket Feeds",
     "license": "MIT",
     "authors": [
         {
@@ -23,13 +23,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Descom\\DescomMarket\\Feeds\\": "src",
-            "Descom\\DescomMarket\\Feeds\\Database\\Factories\\": "database/factories"
+            "DescomMarket\\Feeds\\": "src",
+            "DescomMarket\\Feeds\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Descom\\DescomMarket\\Feeds\\Tests\\": "tests"
+            "DescomMarket\\Feeds\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -41,7 +41,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Descom\\DescomMarket\\Feeds\\DescomMarketFeedsServiceProvider"
+                "DescomMarket\\Feeds\\DescomMarketFeedsServiceProvider"
             ]
         }
     },

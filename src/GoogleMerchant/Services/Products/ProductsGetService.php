@@ -1,6 +1,6 @@
 <?php
 
-namespace Descom\DescomMarket\Feeds\GoogleMerchant\Services\Products;
+namespace DescomMarket\Feeds\GoogleMerchant\Services\Products;
 
 use Descom\B2b\Core\App\Feeds\GoogleMerchant\GoogleMerchantConnection;
 

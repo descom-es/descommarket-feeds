@@ -1,6 +1,6 @@
 <?php
 
-namespace Descom\DescomMarket\Feeds;
+namespace DescomMarket\Feeds;
 
 use Illuminate\Support\ServiceProvider;
 

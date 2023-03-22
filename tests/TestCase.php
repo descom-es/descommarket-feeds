@@ -1,6 +1,6 @@
 <?php
 
-namespace Descom\DescomMarket\Feeds\Tests;
+namespace DescomMarket\Feeds\Tests;
 
 use Descom\DescomMarket\Feeds\DescomMarketFeedsServiceProvider;
 
