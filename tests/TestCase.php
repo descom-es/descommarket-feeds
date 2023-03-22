@@ -2,7 +2,7 @@
 
 namespace DescomMarket\Feeds\Tests;
 
-use Descom\DescomMarket\Feeds\DescomMarketFeedsServiceProvider;
+use DescomMarket\Feeds\DescomMarketFeedsServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

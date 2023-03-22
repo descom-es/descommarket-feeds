@@ -2,7 +2,7 @@
 
 namespace DescomMarket\Feeds\Tests\Feature;
 
-use Descom\DescomMarket\Feeds\Tests\TestCase;
+use DescomMarket\Feeds\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

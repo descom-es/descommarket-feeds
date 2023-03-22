@@ -6,7 +6,7 @@ use Descom\B2b\Core\App\Feeds\GoogleMerchant\GoogleMerchantConnection;
 
 class ProductsUpdateService extends GoogleMerchantConnection
 {
-    public function upsdate(int $productId, array $productData)
+    public function update(int $productId, array $productData)
     {
         $response = $this->client->put('products/' . $productId, $this->transformData($productData));
 
