@@ -4,8 +4,8 @@ namespace DescomMarket\Feeds\GoogleMerchant\Listenters;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
 use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
-use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsGetService;
 use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsCreateService;
+use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsGetService;
 use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsUpdateService;
 
 class SaveProductInGoogleMerchantListener
@@ -14,8 +14,9 @@ class SaveProductInGoogleMerchantListener
     {
         $productData = ProductRepository::get($event->productId);
 
-        if (!isset($productData['sku'])) {
+        if (! isset($productData['sku'])) {
             logger()->error("Product without sku in SaveProductInGoogleMerchantListener. ProductId: $event->productId");
+
             return;
         }
 
@@ -25,6 +26,7 @@ class SaveProductInGoogleMerchantListener
         if ($productGM) {
             $productsUpdateService = new ProductsUpdateService();
             $productsUpdateService->update($productData['sku'], $productData);
+
             return;
         }
 

@@ -12,8 +12,9 @@ class DeleteProductInGoogleMerchantListener
     {
         $productData = ProductRepository::get($event->productId);
 
-        if (!isset($productData['sku'])) {
+        if (! isset($productData['sku'])) {
             logger()->error("Product without sku in DeleteProductInGoogleMerchantListener. ProductId: $event->productId");
+
             return;
         }
 
