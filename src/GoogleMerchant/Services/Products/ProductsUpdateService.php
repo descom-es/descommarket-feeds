@@ -3,20 +3,14 @@
 namespace DescomMarket\Feeds\GoogleMerchant\Services\Products;
 
 use DescomMarket\Feeds\GoogleMerchant\GoogleMerchantConnection;
+use DescomMarket\Feeds\GoogleMerchant\Services\Products\Helpers\ProductsServiceHelper;
 
 class ProductsUpdateService extends GoogleMerchantConnection
 {
-    public function update(int $productId, array $productData)
+    public function update(string $sku, array $productData)
     {
-        $response = $this->client->put('products/' . $productId, $this->transformData($productData));
+        $response = $this->client->put('products/' . $sku, ProductsServiceHelper::transformData($productData)); //TODO: Falta modificar para sólo enviar datos que se actualizan
 
         return $response->getBody()->getContents();
-    }
-
-    public function transformData(array $productData): array
-    {
-        $data = [];
-
-        return $data;
     }
 }

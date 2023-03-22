@@ -6,9 +6,9 @@ use DescomMarket\Feeds\GoogleMerchant\GoogleMerchantConnection;
 
 class ProductsDeleteService extends GoogleMerchantConnection
 {
-    public function delete(int $productId)
+    public function delete(string $sku)
     {
-        $response = $this->client->delete('products/' . $productId);
+        $response = $this->client->delete('products/' . $sku);
 
         return $response->getBody()->getContents();
     }

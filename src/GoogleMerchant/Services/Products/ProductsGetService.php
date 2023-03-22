@@ -6,9 +6,9 @@ use DescomMarket\Feeds\GoogleMerchant\GoogleMerchantConnection;
 
 class ProductsGetService extends GoogleMerchantConnection
 {
-    public function get(int $productId)
+    public function get(string $sku)
     {
-        $response = $this->client->get('products/' . $productId);
+        $response = $this->client->get('products/' . $sku);
 
         return $response->getBody()->getContents();
     }
