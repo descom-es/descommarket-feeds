@@ -25,6 +25,10 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductPublished $event)
     {
+        if (!config('google-merchant.enabled')) {
+            return;
+        }
+
         $service = new ProductsInsertService();
 
         $service(ProductRepository::get($event->productId));
