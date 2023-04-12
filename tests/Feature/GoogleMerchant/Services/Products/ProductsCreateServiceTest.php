@@ -10,14 +10,4 @@ class ProductsCreateServiceTest extends TestCase
     {
         parent::setUp();
     }
-
-    public function testCreate()
-    {
-
-
-    }
-
-    private function getProductRespository(): array
-    {
-    }
 }

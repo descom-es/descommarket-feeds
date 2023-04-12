@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 
 class ProductsDeleteService extends GoogleMerchantConnection
 {
-    public function __invoke(string $productId): void
+    public function __invoke(int|string $productId): void
     {
         try {
             $this->client->delete("products/online:es:ES:{$productId}");
