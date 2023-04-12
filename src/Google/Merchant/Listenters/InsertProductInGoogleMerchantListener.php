@@ -1,10 +1,10 @@
 <?php
 
-namespace DescomMarket\Feeds\GoogleMerchant\Listenters;
+namespace DescomMarket\Feeds\Google\Merchant\Listenters;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
 use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
-use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsInsertService;
+use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductsInsertService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Throwable;
@@ -18,13 +18,18 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function __construct()
     {
-        $this->delay = config('google-merchant.queue.delay');
-        $this->tries = config('google-merchant.queue.tries');
+        $this->delay = config('feeds-google.merchant.queue.delay');
+        $this->tries = config('feeds-google.merchant.queue.tries');
     }
 
     public function handle(ProductPublished $event)
     {
-        if (! config('google-merchant.enabled')) {
+        if (! config('feeds-google.merchant.enabled')) {
+            logger()->debug('InsertProductInGoogleMerchantListener', [
+                'product_id' => $event->productId,
+                'result' => 'disabled',
+            ]);
+
             return;
         }
 
@@ -40,12 +45,12 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function viaConnection(): string
     {
-        return config('google-merchant.queue.connection', 'sync');
+        return config('feeds-google.merchant.queue.connection', 'sync');
     }
 
     public function viaQueue(): string
     {
-        return config('google-merchant.queue.name', 'google_merchant');
+        return config('feeds-google.merchant.queue.name', 'google_merchant');
     }
 
     public function failed(ProductPublished $event, Throwable $exception): void

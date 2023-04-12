@@ -1,32 +1,30 @@
 <?php
 
-namespace DescomMarket\Feeds\GoogleMerchant;
+namespace DescomMarket\Feeds\Google;
 
 use Google\Client as GoogleClient;
 use GuzzleHttp\Client as GuzzleHttpClient;
 
-//Hacerla singleton???
-class GoogleMerchantConnection
+class GoogleConnection
 {
     protected GuzzleHttpClient $client;
 
     public function __construct()
     {
-        $enabled = config('google-merchant.enabled');
-        $credentials = config('google-merchant.api.credentials.path');
+        $credentials = config('feeds-google.api.credentials.path');
 
-        if (! $enabled || ! $credentials) {
-            throw new \Exception('Google Merchant is not enabled or credentials are not set');
+        if (! $credentials) {
+            throw new \Exception('No can connect to Google without credentials json file');
         }
 
         $this->client = $this->initClient($credentials);
     }
 
-    private function initClient($credentials): GuzzleHttpClient
+    private function initClient($credentials)
     {
         $client = new GoogleClient();
 
-        $client->setApplicationName(config('google-merchant.api.app_name'));
+        $client->setApplicationName(config('feeds-google.api.app_name'));
         $client->setHttpClient(new \GuzzleHttp\Client($this->getClientConfig()));
 
         $client->setAuthConfig($credentials);
@@ -38,7 +36,7 @@ class GoogleMerchantConnection
     private function getClientConfig(): array
     {
         return [
-            'base_uri' => config('google-merchant.api.base_uri') . '/' . config('google-merchant.api.version') . '/' . config('google-merchant.api.id') . '/',
+            'base_uri' => config('feeds-google.api.base_uri') . '/' . config('feeds-google.api.version') . '/' . config('feeds-google.api.id') . '/',
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',

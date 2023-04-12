@@ -1,11 +1,11 @@
 <?php
 
-namespace DescomMarket\Feeds\GoogleMerchant\Services\Products;
+namespace DescomMarket\Feeds\Google\Merchant\Services\Products;
 
-use DescomMarket\Feeds\GoogleMerchant\GoogleMerchantConnection;
+use DescomMarket\Feeds\Google\GoogleConnection;
 use GuzzleHttp\Exception\ClientException;
 
-class ProductsDeleteService extends GoogleMerchantConnection
+class ProductsDeleteService extends GoogleConnection
 {
     public function __invoke(int|string $productId): void
     {

@@ -8,14 +8,14 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/google-merchant.php', 'google-merchant');
+        $this->mergeConfigFrom(__DIR__ . '/../config/feeds-google.php', 'feeds-google');
     }
 
     public function boot()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/google-merchant.php' => config_path('google-merchant.php'),
+                __DIR__ . '/../config/feeds-google.php' => config_path('feeds-google.php'),
             ], 'config');
         }
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace DescomMarket\Feeds\GoogleMerchant\Services\Products\Helpers;
+namespace DescomMarket\Feeds\Google\Merchant\Services\Products\Helpers;
 
 use Illuminate\Support\Str;
 
 final class ProductsServiceHelper
 {
-    private array $categoriesOfAlcoholicBeverages = [10001, 10002, 10003, 10004]; // TODO remove form here
+    // private array $categoriesOfAlcoholicBeverages = [10001, 10002, 10003, 10004]; // TODO remove form here
 
     public static function transformData(array $productData): array
     {
@@ -50,25 +50,18 @@ final class ProductsServiceHelper
             $data['gtin'] = $productData['gtin'];
         }
 
-        $me = new self();
+        // $me = new self();
 
-        $categoryInGoogle = $me->getGoogleProductCategory(array_map(
-            fn ($category) => $category['id'],
-            $productData['categories']
-        ));
+        // $categoryInGoogle = $me->getGoogleProductCategory(array_map(
+        //     fn ($category) => $category['id'],
+        //     $productData['categories']
+        // ));
 
-        if ($categoryInGoogle) {
-            $data['google_product_category'] = $categoryInGoogle;
-        }
+        // if ($categoryInGoogle) {
+        //     $data['google_product_category'] = $categoryInGoogle;
+        // }
 
         return $data;
-    }
-
-    private static function transformAdditionalImageLink(array $gallery): string
-    {
-        return implode(',', array_map(function ($image) {
-            return $image['url'];
-        }, $gallery));
     }
 
     private static function offer($productData): ?float
@@ -83,14 +76,14 @@ final class ProductsServiceHelper
         return (float)number_format($price, 2, '.', '');
     }
 
-    private function getGoogleProductCategory(array $categoriesIdInDM): ?string
-    {
-        $isAlcoholicBeverages = array_intersect($categoriesIdInDM, $this->categoriesOfAlcoholicBeverages) ? true : false;
+    // private function getGoogleProductCategory(array $categoriesIdInDM): ?string
+    // {
+    //     $isAlcoholicBeverages = array_intersect($categoriesIdInDM, $this->categoriesOfAlcoholicBeverages) ? true : false;
 
-        if ($isAlcoholicBeverages) {
-            return '499676';
-        }
+    //     if ($isAlcoholicBeverages) {
+    //         return '499676';
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 }
