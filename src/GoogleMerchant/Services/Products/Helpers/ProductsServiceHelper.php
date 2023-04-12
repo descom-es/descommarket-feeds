@@ -2,63 +2,66 @@
 
 namespace DescomMarket\Feeds\GoogleMerchant\Services\Products\Helpers;
 
+use Illuminate\Support\Str;
+
 final class ProductsServiceHelper
 {
-    /**
-     * @param array $productData
-     * 'id' => 'required|max:50|alpha_num:ascii', //SKU
-     * 'title' => 'required|max:150', //Nombre del producto
-     * 'description' => 'required|max:5000', //Admite HTML básico (ul, li, string, br, ...)
-     * 'link' => 'required|max:2000|url', //URL del producto
-     * 'image_link' => 'required|max:2000|url', //URL de la imagen del producto, formatos soportados: JPEG (.jpg/.jpeg), WebP (.webp), PNG (.png), GIF (.gif), BMP (.bmp), and TIFF (.tif/.tiff))
-     * 'additional_image_link' => 'max:2000', //Máximo 10 urls, separadas por comas
-     * 'availability' => 'required|in:in stock,out of stock',
-     * 'price' => 'required|regex:/^\d+(\.\d{1,2})?\s[A-Z]{3}$/', //Precio del producto, formato: 123.45 EUR
-     * 'google_product_category' => 'numeric', //Id de la categoría de Google, ver https://support.google.com/merchants/answer/6324436?hl=es
-     * 'brand' => 'required|max:70', //Marca del producto
-     * 'gtin' => 'required|max:50|numeric', //Código de barras
-     * 'mpn' => 'max:70|alpha_num:ascii', //Código del producto
-     * @return array
-     */
+    private array $categoriesOfAlcoholicBeverages = [10001, 10002, 10003, 10004]; // TODO remove form here
+
     public static function transformData(array $productData): array
     {
-        $data = [];
-
-        $data['id'] = $productData['sku'];
-        $data['title'] = $productData['name'];
-        $data['description'] = self::transformDescription($productData['description']);
-        $data['link'] = config('b2b-core.shop.url') . $productData['url_path']; //TODO: Estamos cogiendo del config del B2B, ¿dónde deberíamos definirlo en el common?
-        $data['image_link'] = $productData['image']['url'];
-        $data['additional_image_link'] = self::transformAdditionalImageLink($productData['gallery']);
-        $data['availability'] = $productData['in_stock'] ? 'in stock' : 'out of stock';
-        $data['price'] = [
-            'value' => $productData['price'],
-            'currency' => 'EUR',
+        $data = [
+            'id' => $productData['id'],
+            'offerId' => $productData['id'],
+            'channel' => 'online',
+            'targetCountry' => 'ES',
+            'contentLanguage' => 'es',
+            'title' => $productData['name'],
+            'description' => (string)Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(5000),
+            'link' => $productData['url'],
+            'image_link' => $productData['image']['url'],
+            'availability' => $productData['in_stock'] ? 'in stock' : 'out of stock',
+            'price' => [
+                'value' => $productData['price'],
+                'currency' => 'EUR',
+            ],
+            'shipping' => [
+                'country' => 'ES',
+                'price' => [
+                    'value' => self::shippingCost($productData),
+                    'currency' => 'EUR',
+                ],
+            ],
         ];
-        if (self::existsOfferPrice($productData['price'], $productData['offers'] ?? [])) {
+
+        $offer = self::offer($productData);
+        if (!is_null($offer)) {
             $data['sale_price'] = [
-                'value' => $productData['offers'][0]['price'],
+                'value' => $offer,
                 'currency' => 'EUR',
             ];
         }
+
         if (isset($productData['brand']['name'])) {
             $data['brand'] = $productData['brand']['name'];
         }
 
-        // $data['gtin'] = ???;
-        // $data['mpn'] = ???;
-        // $data['google_product_category'] = ???;
-
-        return $data;
-    }
-
-    private static function transformDescription(string $description): string
-    {
-        if (strlen($description) > 5000) {
-            return substr(strip_tags($description), 0, 5000);
+        if (!empty($productData['gtin'])) {
+            $data['gtin'] = $productData['gtin'];
         }
 
-        return $description;
+        $me = new self();
+
+        $categoryInGoogle = $me->getGoogleProductCategory(array_map(
+            fn($category) => $category['id'],
+            $productData['categories']
+        ));
+
+        if ($categoryInGoogle) {
+            $data['google_product_category'] = $categoryInGoogle;
+        }
+
+        return $data;
     }
 
     private static function transformAdditionalImageLink(array $gallery): string
@@ -68,8 +71,26 @@ final class ProductsServiceHelper
         }, $gallery));
     }
 
-    private static function existsOfferPrice($price, array $offers): bool
+    private static function offer($productData): ?float
     {
-        return isset($productData['offers']) && isset($productData['offers'][0]) && isset($productData['offers'][0]['price']) && $productData['offers'][0]['price'] != $price;
+        return $productData['offers'][0]['price'] ?? null;
+    }
+
+    private static function shippingCost($productData): float
+    {
+        $price = (float)($productData['extra']['data']['lowest_shipping_cost'] ?? 0) * 1.21;
+
+        return (float)number_format($price, 2, '.', '');
+    }
+
+    private function getGoogleProductCategory(array $categoriesIdInDM): ?string
+    {
+        $isAlcoholicBeverages = array_intersect($categoriesIdInDM, $this->categoriesOfAlcoholicBeverages) ? true : false;
+
+        if ($isAlcoholicBeverages) {
+            return '499676';
+        }
+
+        return null;
     }
 }

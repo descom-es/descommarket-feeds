@@ -2,13 +2,15 @@
 
 namespace DescomMarket\Feeds\GoogleMerchant\Listenters;
 
-use DescomMarket\Common\Events\Catalog\Products\ProductUnpublished;
-use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsDeleteService;
+use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
+use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
+use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsCreateService;
+use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsInsertService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Throwable;
 
-class DeleteProductInGoogleMerchantListener implements ShouldQueue
+class InsertProductInGoogleMerchantListener implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -21,11 +23,11 @@ class DeleteProductInGoogleMerchantListener implements ShouldQueue
         $this->tries = config('google-merchant.queue.tries');
     }
 
-    public function handle(ProductUnpublished $event)
+    public function handle(ProductPublished $event)
     {
-        $service = new ProductsDeleteService();
+        $service = new ProductsInsertService();
 
-        $service($event->productId);
+        $service(ProductRepository::get($event->productId));
     }
 
     public function viaConnection(): string
@@ -38,7 +40,7 @@ class DeleteProductInGoogleMerchantListener implements ShouldQueue
         return config('google-merchant.queue.name');
     }
 
-    public function failed(ProductUnpublished $event, Throwable $exception): void
+    public function failed(ProductPublished $event, Throwable $exception): void
     {
         report($exception);
     }

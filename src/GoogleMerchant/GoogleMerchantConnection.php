@@ -13,7 +13,7 @@ class GoogleMerchantConnection
     public function __construct()
     {
         $enabled = config('google-merchant.enabled');
-        $credentials = config('google-merchant.credentials.path');
+        $credentials = config('google-merchant.api.credentials.path');
 
         if (! $enabled || ! $credentials) {
             throw new \Exception('Google Merchant is not enabled or credentials are not set');
@@ -26,8 +26,8 @@ class GoogleMerchantConnection
     {
         $client = new GoogleClient();
 
-        $client->setApplicationName(config('google-merchant.app_name'));
-        $client->setHttpClient(new GuzzleHttpClient($this->getClientConfig()));
+        $client->setApplicationName(config('google-merchant.api.app_name'));
+        $client->setHttpClient(new \GuzzleHttp\Client($this->getClientConfig()));
 
         $client->setAuthConfig($credentials);
         $client->addScope('https://www.googleapis.com/auth/content');
@@ -38,7 +38,7 @@ class GoogleMerchantConnection
     private function getClientConfig(): array
     {
         return [
-            'base_uri' => config('google-merchant.base_uri') . '/' . config('google-merchant.version') . '/' . config('google-merchant.id') . '/',
+            'base_uri' => config('google-merchant.api.base_uri') . '/' . config('google-merchant.api.version') . '/' . config('google-merchant.api.id') . '/',
             'headers' => [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',

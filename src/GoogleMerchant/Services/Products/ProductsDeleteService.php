@@ -3,13 +3,20 @@
 namespace DescomMarket\Feeds\GoogleMerchant\Services\Products;
 
 use DescomMarket\Feeds\GoogleMerchant\GoogleMerchantConnection;
+use GuzzleHttp\Exception\ClientException;
 
 class ProductsDeleteService extends GoogleMerchantConnection
 {
-    public function delete(string $sku)
+    public function __invoke(string $productId): void
     {
-        $response = $this->client->delete('products/' . $sku);
+        try {
+            $this->client->delete("products/online:es:ES:{$productId}");
+        } catch (ClientException $exception) {
+            if ($exception->getCode() === 404) {
+                return;
+            }
 
-        return $response->getBody()->getContents();
+            throw $exception;
+        }
     }
 }
