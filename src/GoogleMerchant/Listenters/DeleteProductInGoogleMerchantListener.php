@@ -34,12 +34,12 @@ class DeleteProductInGoogleMerchantListener implements ShouldQueue
 
     public function viaConnection(): string
     {
-        return config('google-merchant.queue.connection');
+        return config('google-merchant.queue.connection', 'sync');
     }
 
     public function viaQueue(): string
     {
-        return config('google-merchant.queue.name');
+        return config('google-merchant.queue.name', 'google_merchant');
     }
 
     public function failed(ProductUnpublished $event, Throwable $exception): void

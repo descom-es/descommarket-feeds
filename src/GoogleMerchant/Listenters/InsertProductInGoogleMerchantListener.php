@@ -35,12 +35,12 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function viaConnection(): string
     {
-        return config('google-merchant.queue.connection');
+        return config('google-merchant.queue.connection', 'sync');
     }
 
     public function viaQueue(): string
     {
-        return config('google-merchant.queue.name');
+        return config('google-merchant.queue.name', 'google_merchant');
     }
 
     public function failed(ProductPublished $event, Throwable $exception): void
