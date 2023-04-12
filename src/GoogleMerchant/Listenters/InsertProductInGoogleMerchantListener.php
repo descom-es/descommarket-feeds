@@ -30,7 +30,12 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
         $service = new ProductsInsertService();
 
-        $service(ProductRepository::get($event->productId));
+        $result = $service(ProductRepository::get($event->productId));
+
+        logger()->debug('InsertProductInGoogleMerchantListener', [
+            'product_id' => $event->productId,
+            'result' => $result,
+        ])
     }
 
     public function viaConnection(): string
