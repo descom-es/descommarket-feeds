@@ -35,7 +35,7 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
         logger()->debug('InsertProductInGoogleMerchantListener', [
             'product_id' => $event->productId,
             'result' => $result,
-        ])
+        ]);
     }
 
     public function viaConnection(): string
