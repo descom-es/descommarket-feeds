@@ -35,7 +35,7 @@ final class ProductsServiceHelper
         ];
 
         $offer = self::offer($productData);
-        if (!is_null($offer)) {
+        if (! is_null($offer)) {
             $data['sale_price'] = [
                 'value' => $offer,
                 'currency' => 'EUR',
@@ -46,14 +46,14 @@ final class ProductsServiceHelper
             $data['brand'] = $productData['brand']['name'];
         }
 
-        if (!empty($productData['gtin'])) {
+        if (! empty($productData['gtin'])) {
             $data['gtin'] = $productData['gtin'];
         }
 
         $me = new self();
 
         $categoryInGoogle = $me->getGoogleProductCategory(array_map(
-            fn($category) => $category['id'],
+            fn ($category) => $category['id'],
             $productData['categories']
         ));
 

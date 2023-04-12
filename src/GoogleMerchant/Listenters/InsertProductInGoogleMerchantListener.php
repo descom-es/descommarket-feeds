@@ -4,7 +4,6 @@ namespace DescomMarket\Feeds\GoogleMerchant\Listenters;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
 use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
-use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsCreateService;
 use DescomMarket\Feeds\GoogleMerchant\Services\Products\ProductsInsertService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -25,7 +24,7 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductPublished $event)
     {
-        if (!config('google-merchant.enabled')) {
+        if (! config('google-merchant.enabled')) {
             return;
         }
 

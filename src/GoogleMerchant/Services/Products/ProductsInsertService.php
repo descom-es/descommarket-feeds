@@ -9,8 +9,8 @@ class ProductsInsertService extends GoogleMerchantConnection
 {
     public function __invoke(array $productData)
     {
-            $response = $this->client->post('products', ['json' => ProductsServiceHelper::transformData($productData)]);
+        $response = $this->client->post('products', ['json' => ProductsServiceHelper::transformData($productData)]);
 
-            return $response->getBody()->getContents();
+        return $response->getBody()->getContents();
     }
 }
