@@ -43,7 +43,7 @@ final class ProductTransformer
 
         if (! is_null($offer)) {
             $price = new Price();
-            $price->setValue( $offer);
+            $price->setValue($offer);
             $price->setCurrency('EUR');
             $product->setSalePrice($price);
         }

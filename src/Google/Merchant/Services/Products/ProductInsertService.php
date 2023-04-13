@@ -4,7 +4,6 @@ namespace DescomMarket\Feeds\Google\Merchant\Services\Products;
 
 use DescomMarket\Feeds\Google\GoogleServiceBuilder;
 use DescomMarket\Feeds\Google\Merchant\Services\Products\Transformer\ProductTransformer;
-use Google\Service\ShoppingContent\Product;
 
 class ProductInsertService
 {

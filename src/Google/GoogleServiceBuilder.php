@@ -5,7 +5,6 @@ namespace DescomMarket\Feeds\Google;
 use Google\Client;
 use Google\Service\ShoppingContent;
 
-
 final class GoogleServiceBuilder
 {
     public static function googleMerchant(): ShoppingContent
