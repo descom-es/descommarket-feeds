@@ -24,13 +24,13 @@ class UpdateProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductUpdated $event)
     {
-        $product = ProductRepository::get($event->productId);
-
-        if (! $product) {
+        if (! $this->attributesChanged($event->attributesChanged)) {
             return;
         }
 
-        if (! $this->attributesChanged($event->attributesChanged)) {
+        $product = ProductRepository::get($event->productId);
+
+        if (! $product) {
             return;
         }
 
@@ -42,6 +42,11 @@ class UpdateProductInGoogleMerchantListener implements ShouldQueue
             'product_id' => $event->productId,
             'attributes_changed' => $event->attributesChanged,
         ]);
+    }
+
+    public function shouldQueue(ProductUpdated $event): bool
+    {
+        return $this->attributesChanged($event->attributesChanged);
     }
 
     private function attributesChanged(array $attributes): bool
