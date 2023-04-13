@@ -4,7 +4,7 @@ namespace DescomMarket\Feeds\Google\Merchant\Listenters;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
 use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
-use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductsInsertService;
+use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductInsertService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Throwable;
@@ -24,23 +24,9 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductPublished $event)
     {
-        if (! config('feeds-google.merchant.enabled')) {
-            logger()->debug('InsertProductInGoogleMerchantListener', [
-                'product_id' => $event->productId,
-                'result' => 'disabled',
-            ]);
+        $command = new ProductInsertService();
 
-            return;
-        }
-
-        $service = new ProductsInsertService();
-
-        $result = $service(ProductRepository::get($event->productId));
-
-        logger()->debug('InsertProductInGoogleMerchantListener', [
-            'product_id' => $event->productId,
-            'result' => $result,
-        ]);
+        $command->run(ProductRepository::get($event->productId));
     }
 
     public function viaConnection(): string

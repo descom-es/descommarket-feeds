@@ -3,7 +3,7 @@
 namespace DescomMarket\Feeds\Google\Merchant\Listenters;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductUnpublished;
-use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductsDeleteService;
+use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductDeleteService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Throwable;
@@ -23,13 +23,9 @@ class DeleteProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductUnpublished $event)
     {
-        if (! config('feeds-google.merchant.enabled')) {
-            return;
-        }
+        $command = new ProductDeleteService();
 
-        $service = new ProductsDeleteService();
-
-        $service($event->productId);
+        $command->run($event->productId);
     }
 
     public function viaConnection(): string
