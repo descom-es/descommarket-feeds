@@ -3,6 +3,7 @@
 namespace DescomMarket\Feeds\Google\Merchant\Listenters;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductUnpublished;
+use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
 use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductDeleteService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
