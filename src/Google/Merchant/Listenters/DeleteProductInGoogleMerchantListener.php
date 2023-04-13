@@ -23,6 +23,10 @@ class DeleteProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductUnpublished $event)
     {
+        if (ProductRepository::get($event->productId)) {
+            return;
+        }
+
         $command = new ProductDeleteService();
 
         $command->run($event->productId);

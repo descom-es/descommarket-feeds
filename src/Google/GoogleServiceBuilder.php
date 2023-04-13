@@ -3,6 +3,7 @@
 namespace DescomMarket\Feeds\Google;
 
 use Google\Client;
+use Google\Service\Indexing;
 use Google\Service\ShoppingContent;
 
 final class GoogleServiceBuilder
@@ -10,6 +11,11 @@ final class GoogleServiceBuilder
     public static function googleMerchant(): ShoppingContent
     {
         return self::service(ShoppingContent::class, ShoppingContent::CONTENT);
+    }
+
+    public static function googleIndex(): INDEXING
+    {
+        return self::service(Indexing::class, Indexing::INDEXING);
     }
 
     private static function service(string $serviceClassName, string|array $scopes)
