@@ -19,4 +19,15 @@ return [
         ]
     ],
 
+    'index' => [
+        'enabled' => env('GOOGLE_INDEX_ENABLED', null),
+
+        'queue' => [
+            'connection' => env('GOOGLE_INDEX_QUEUE_CONNECTION', 'sync'),
+            'name'    => env('GOOGLE_INDEX_QUEUE_NAME', 'google_index'),
+            'delay'   => env('GOOGLE_INDEX_QUEUE_DELAY', 60),
+            'tries'  => env('GOOGLE_INDEX_QUEUE_TRIES', 1),
+        ]
+    ],
+
 ];

@@ -18,8 +18,8 @@ class InsertProductInGoogleMerchantListener implements ShouldQueue
 
     public function __construct()
     {
-        $this->delay = config('feeds-google.merchant.queue.delay');
-        $this->tries = config('feeds-google.merchant.queue.tries');
+        $this->delay = config('feeds-google.merchant.queue.delay', 60);
+        $this->tries = config('feeds-google.merchant.queue.tries', 10);
     }
 
     public function handle(ProductPublished $event)

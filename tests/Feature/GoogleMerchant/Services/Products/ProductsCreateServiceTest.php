@@ -2,6 +2,7 @@
 
 namespace DescomMarket\Feeds\Tests\Feature\GoogleMerchant\Services\Products;
 
+use DescomMarket\Feeds\Google\Index\Services\IndexUrlService;
 use DescomMarket\Feeds\Tests\TestCase;
 
 class ProductsCreateServiceTest extends TestCase
@@ -13,5 +14,6 @@ class ProductsCreateServiceTest extends TestCase
 
     public function testA()
     {
+
     }
 }
