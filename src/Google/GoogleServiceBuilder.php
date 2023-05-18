@@ -8,6 +8,8 @@ use Google\Service\ShoppingContent;
 
 final class GoogleServiceBuilder
 {
+    private static ?Client $client = null;
+
     public static function googleMerchant(): ShoppingContent
     {
         return self::service(ShoppingContent::class, ShoppingContent::CONTENT);
@@ -26,12 +28,16 @@ final class GoogleServiceBuilder
             throw new \Exception('No can connect to Google without credentials json file');
         }
 
-        $client = new Client();
+        if (!self::$client) {
+            self::$client = new Client();
 
-        $client->setAuthConfig($credentials);
+            self::$client->setAuthConfig($credentials);
 
-        $client->addScope($scopes);
+            self::$client->addScope($scopes);
 
-        return new $serviceClassName($client);
+        }
+
+
+        return new $serviceClassName(self::$client);
     }
 }
