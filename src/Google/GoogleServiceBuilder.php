@@ -28,7 +28,7 @@ final class GoogleServiceBuilder
             throw new \Exception('No can connect to Google without credentials json file');
         }
 
-        if (!self::$client) {
+        if (! self::$client) {
             self::$client = new Client();
 
             self::$client->setAuthConfig($credentials);
