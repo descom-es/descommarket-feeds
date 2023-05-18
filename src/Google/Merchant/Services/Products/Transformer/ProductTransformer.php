@@ -48,6 +48,9 @@ final class ProductTransformer
             $product->setSalePrice($price);
         }
 
+        $sectionSlug = $productData['categories'][0]['slug'] ?? null;
+        $product->setCustomLabel0($sectionSlug);
+
         return $product;
     }
 
