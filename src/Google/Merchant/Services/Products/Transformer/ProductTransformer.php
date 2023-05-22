@@ -22,6 +22,7 @@ final class ProductTransformer
         $product->setLink($productData['url']);
         $product->setImageLink($productData['image']['url']);
         $product->setAvailability($productData['in_stock'] ? 'in stock' : 'out of stock');
+        $product->setProductType(static::productType($productData));
         $product->setCondition('new');
         $product->setBrand($productData['brand']['name'] ?? null);
         $product->setGtin($productData['gtin'] ?? null);
@@ -64,5 +65,12 @@ final class ProductTransformer
         $price = (float)($productData['extra']['data']['lowest_shipping_cost'] ?? 0) * 1.21;
 
         return (float)number_format($price, 2, '.', '');
+    }
+
+    private static function productType($productData): string
+    {
+        return collect($productData['categories'])->map(function ($category) {
+            return $category['name'];
+        })->implode(' > ')->limit(750);
     }
 }
