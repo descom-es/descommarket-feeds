@@ -69,7 +69,7 @@ final class ProductTransformer
 
     private static function productType($productData): string
     {
-        return collect($productData['categories'])->map(function ($category) {
+        return (string)collect($productData['categories'])->map(function ($category) {
             return $category['name'];
         })->implode(' > ')->limit(750);
     }
