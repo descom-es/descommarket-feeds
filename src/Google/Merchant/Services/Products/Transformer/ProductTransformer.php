@@ -22,6 +22,7 @@ final class ProductTransformer
         $product->setLink($productData['url']);
         $product->setImageLink($productData['image']['url']);
         $product->setAvailability($productData['in_stock'] ? 'in stock' : 'out of stock');
+        $product->setProductTypes(array_map(fn ($category) => $category['name'], $productData['categories']));
         $product->setCondition('new');
         $product->setBrand($productData['brand']['name'] ?? null);
         $product->setGtin($productData['gtin'] ?? null);
