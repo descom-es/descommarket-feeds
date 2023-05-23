@@ -13,6 +13,8 @@
         "php": "^8.0",
         "descom/descommarket_common": "^1.0",
         "google/apiclient": "^2.12.1",
+        "illuminate/console": "*",
+        "illuminate/database": "*",
         "laravel/framework": "^9.0|^10.0"
     },
     "require-dev": {

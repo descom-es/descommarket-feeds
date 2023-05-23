@@ -2,6 +2,7 @@
 
 namespace DescomMarket\Feeds;
 
+use DescomMarket\Feeds\Console\IndexUrlCommand;
 use Illuminate\Support\ServiceProvider;
 
 class DescomMarketFeedsServiceProvider extends ServiceProvider
@@ -17,6 +18,12 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/feeds-google.php' => config_path('feeds-google.php'),
             ], 'config');
+
+            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+            $this->commands([
+                IndexUrlCommand::class,
+            ]);
         }
     }
 }

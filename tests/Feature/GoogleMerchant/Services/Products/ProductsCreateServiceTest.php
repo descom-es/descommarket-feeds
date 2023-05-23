@@ -1,6 +1,7 @@
 <?php
 
-namespace DescomMarket\Feeds\Tests\Feature\GoogleMerchant\Services\Products;
+namespace  DescomMarket\Feeds\Tests\Feature\Google;
+
 
 use DescomMarket\Feeds\Tests\TestCase;
 
@@ -13,6 +14,5 @@ class ProductsCreateServiceTest extends TestCase
 
     public function testA()
     {
-
     }
 }
