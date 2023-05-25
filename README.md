@@ -28,3 +28,10 @@ use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
 EnqueueUrlService::publish($url);
 EnqueueUrlService::unpublish($url);
 ```
+
+Or use events:
+
+```php
+use DescomMarket\Common\Events\Urls\UrlCreated;
+use DescomMarket\Common\Events\Urls\UrlDeleted;
+```
