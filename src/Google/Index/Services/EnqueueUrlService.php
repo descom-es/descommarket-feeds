@@ -7,12 +7,11 @@ use Google\Service\Indexing\UrlNotification;
 
 class EnqueueUrlService
 {
-    public static function publish(string $url,  int $priority = 10)
+    public static function publish(string $url,  int $priority = 20)
     {
         $enabled = config('feeds-google.index.enabled');
 
         if (!$enabled) {
-
             return;
         }
 
@@ -34,7 +33,7 @@ class EnqueueUrlService
         }
     }
 
-    public static function unpublish(string $url,  int $priority = 20)
+    public static function unpublish(string $url,  int $priority = 99)
     {
         $enabled = config('feeds-google.index.enabled');
 

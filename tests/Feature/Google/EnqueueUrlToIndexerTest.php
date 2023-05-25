@@ -2,8 +2,12 @@
 
 namespace DescomMarket\Feeds\Google;
 
+use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
+use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
 use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
+use DescomMarket\Feeds\Tests\Stubs\ProductRepositoryDriver;
 use DescomMarket\Feeds\Tests\TestCase;
+use Google\Service\AdExchangeBuyerII\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EnqueueUrlToIndexerTest extends TestCase
@@ -69,6 +73,18 @@ class EnqueueUrlToIndexerTest extends TestCase
         $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
             'action' => 'unindex'
+        ]);
+    }
+
+    public function test_product_index_if_published()
+    {
+        ProductRepository::config(new ProductRepositoryDriver());
+
+        event(new ProductPublished(1));
+
+        $this->assertDatabaseHas('google_url_indexing_queue', [
+            'url' => 'https://example.com',
+            'action' => 'index'
         ]);
     }
 

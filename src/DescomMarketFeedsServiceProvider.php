@@ -3,6 +3,7 @@
 namespace DescomMarket\Feeds;
 
 use DescomMarket\Feeds\Console\IndexUrlCommand;
+use DescomMarket\Feeds\Providers\EventServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class DescomMarketFeedsServiceProvider extends ServiceProvider
@@ -10,6 +11,7 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/feeds-google.php', 'feeds-google');
+        $this->app->register(EventServiceProvider::class);
     }
 
     public function boot()
