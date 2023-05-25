@@ -10,6 +10,6 @@ class IndexProductInGoogleListener
 {
     public function handle(UrlCreated $event)
     {
-        EnqueueUrlService::index($event->url);
+        EnqueueUrlService::publish($event->url);
     }
 }

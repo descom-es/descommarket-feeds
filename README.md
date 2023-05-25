@@ -17,3 +17,14 @@ GOOGLE_INDEX_QUEUE_TRIES=10
 ```bash
 php artisan vendor:publish --provider="DescomMarket\Feeds\DescomMarketFeedsServiceProvider"
 ```
+
+## Google Indexer Url in Search Console
+
+You can use this API to index your products in Google Search Console
+
+```php
+use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
+
+EnqueueUrlService::publish($url);
+EnqueueUrlService::unpublish($url);
+```

@@ -22,7 +22,7 @@ class EnqueueUrlToIndexerTest extends TestCase
     {
         $url = 'https://www.pipo.es';
 
-        EnqueueUrlService::index($url);
+        EnqueueUrlService::publish($url);
 
         $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
@@ -34,8 +34,8 @@ class EnqueueUrlToIndexerTest extends TestCase
     {
         $url = 'https://www.pipo.es';
 
-        EnqueueUrlService::index($url);
-        EnqueueUrlService::index($url);
+        EnqueueUrlService::publish($url);
+        EnqueueUrlService::publish($url);
 
         $this->assertDatabaseCount('google_url_indexing_queue', 1);
     }
@@ -44,8 +44,8 @@ class EnqueueUrlToIndexerTest extends TestCase
     {
         $url = 'https://www.descom.es';
 
-        EnqueueUrlService::unindex($url);
-        EnqueueUrlService::index($url);
+        EnqueueUrlService::unpublish($url);
+        EnqueueUrlService::publish($url);
 
         $this->assertDatabaseCount('google_url_indexing_queue', 0);
     }
@@ -54,8 +54,8 @@ class EnqueueUrlToIndexerTest extends TestCase
     {
         $url = 'https://www.descom.es';
 
-        EnqueueUrlService::index($url);
-        EnqueueUrlService::unindex($url);
+        EnqueueUrlService::publish($url);
+        EnqueueUrlService::unpublish($url);
 
         $this->assertDatabaseCount('google_url_indexing_queue', 0);
     }
@@ -64,7 +64,7 @@ class EnqueueUrlToIndexerTest extends TestCase
     {
         $url = 'https://www.descom.es';
 
-        EnqueueUrlService::unindex($url);
+        EnqueueUrlService::unpublish($url);
 
         $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
