@@ -4,7 +4,7 @@ namespace DescomMarket\Feeds\Console;
 
 use DescomMarket\Feeds\Google\Index\Services\IndexUrlService;
 use DescomMarket\Feeds\Google\Index\Services\UnIndexUrlService;
-use DescomMarket\Feeds\Google\Models\Indexer;
+use DescomMarket\Feeds\Google\Models\UrlIndexingQueueModel;
 use Exception;
 use Illuminate\Console\Command;
 
@@ -17,7 +17,7 @@ class IndexUrlCommand extends Command
     public function handle()
     {
 
-        $urls = Indexer::orderBy('priority', 'asc')->get();
+        $urls = UrlIndexingQueueModel::orderBy('priority', 'asc')->get();
 
         foreach ($urls as $url) {
             try {

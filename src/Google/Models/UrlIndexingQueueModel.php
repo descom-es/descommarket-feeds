@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $url
  * @property int $priority
  */
-class Indexer extends Model
+class UrlIndexingQueueModel extends Model
 {
-    protected $table = 'google_indexing';
+    protected $table = 'google_url_indexing_queue';
 
     protected $fillable = [
         'url',

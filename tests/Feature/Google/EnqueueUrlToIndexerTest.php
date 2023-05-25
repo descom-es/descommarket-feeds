@@ -2,13 +2,11 @@
 
 namespace DescomMarket\Feeds\Google;
 
-
+use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
 use DescomMarket\Feeds\Tests\TestCase;
-use Google\Models\Indexer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-
-class UrlStoreTest extends TestCase
+class EnqueueUrlToIndexerTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -24,10 +22,9 @@ class UrlStoreTest extends TestCase
     {
         $url = 'https://www.pipo.es';
 
-        $storeUrl = new UrlStore();
-        $storeUrl->index($url);
+        EnqueueUrlService::index($url);
 
-        $this->assertDatabaseHas('google_indexing', [
+        $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
             'action' => 'index'
         ]);
@@ -37,43 +34,39 @@ class UrlStoreTest extends TestCase
     {
         $url = 'https://www.pipo.es';
 
-        $storeUrl = new UrlStore();
-        $storeUrl->index($url);
-        $storeUrl->index($url);
+        EnqueueUrlService::index($url);
+        EnqueueUrlService::index($url);
 
-        $this->assertDatabaseCount('google_indexing', 1);
+        $this->assertDatabaseCount('google_url_indexing_queue', 1);
     }
 
     public function test_index_url_delete()
     {
         $url = 'https://www.descom.es';
 
-        $storeUrl = new UrlStore();
-        $storeUrl->unindex($url);
-        $storeUrl->index($url);
+        EnqueueUrlService::unindex($url);
+        EnqueueUrlService::index($url);
 
-        $this->assertDatabaseCount('google_indexing', 0);
+        $this->assertDatabaseCount('google_url_indexing_queue', 0);
     }
 
     public function test_index_and_unindex_url()
     {
         $url = 'https://www.descom.es';
 
-        $storeUrl = new UrlStore();
-        $storeUrl->index($url);
-        $storeUrl->unindex($url);
+        EnqueueUrlService::index($url);
+        EnqueueUrlService::unindex($url);
 
-        $this->assertDatabaseCount('google_indexing', 0);
+        $this->assertDatabaseCount('google_url_indexing_queue', 0);
     }
 
     public function test_unindex_url()
     {
         $url = 'https://www.descom.es';
 
-        $storeUrl = new UrlStore();
-        $storeUrl->unindex($url);
+        EnqueueUrlService::unindex($url);
 
-        $this->assertDatabaseHas('google_indexing', [
+        $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
             'action' => 'unindex'
         ]);
@@ -88,6 +81,6 @@ class UrlStoreTest extends TestCase
 
     //     $this->artisan('feeds-google:index-urls');
 
-    //     $this->assertDatabaseCount('google_indexing', 0);
+    //     $this->assertDatabaseCount('google_url_indexing_queue', 0);
     // }
 }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('google_indexing', function (Blueprint $table) {
+        Schema::create('google_url_indexing_queue', function (Blueprint $table) {
             $table->id();
             $table->string('url')->unique();
             $table->string('action');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('google_indexing');
+        Schema::dropIfExists('google_url_indexing_queue');
     }
 };
