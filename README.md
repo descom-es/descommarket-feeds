@@ -20,6 +20,10 @@ php artisan vendor:publish --provider="DescomMarket\Feeds\DescomMarketFeedsServi
 
 ## Google Indexer Url in Search Console
 
+Automatically index your products in Google Search Console if dispatch event:
+
+`DescomMarket\Common\Events\Catalog\Products\ProductPublished`
+
 You can use this API to index your products in Google Search Console
 
 ```php
