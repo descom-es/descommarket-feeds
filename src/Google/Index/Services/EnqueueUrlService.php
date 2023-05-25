@@ -3,7 +3,6 @@
 namespace DescomMarket\Feeds\Google\Index\Services;
 
 use DescomMarket\Feeds\Google\Models\UrlIndexingQueueModel;
-use Google\Service\Indexing\UrlNotification;
 
 class EnqueueUrlService
 {
@@ -11,13 +10,13 @@ class EnqueueUrlService
     {
         $enabled = config('feeds-google.index.enabled');
 
-        if (!$enabled) {
+        if (! $enabled) {
             return;
         }
 
         $urlIndexing = UrlIndexingQueueModel::where('url', $url)->first();
 
-        if (!$urlIndexing) {
+        if (! $urlIndexing) {
 
             UrlIndexingQueueModel::create([
                 'url' => $url,
@@ -37,14 +36,14 @@ class EnqueueUrlService
     {
         $enabled = config('feeds-google.index.enabled');
 
-        if (!$enabled) {
+        if (! $enabled) {
             return;
         }
 
         $urlIndexing = UrlIndexingQueueModel::where('url', $url)->first();
 
 
-        if (!$urlIndexing) {
+        if (! $urlIndexing) {
             UrlIndexingQueueModel::create([
                 'url' => $url,
                 'action' => 'unindex',

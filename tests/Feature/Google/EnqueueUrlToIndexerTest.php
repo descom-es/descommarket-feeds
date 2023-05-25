@@ -7,12 +7,10 @@ use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
 use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
 use DescomMarket\Feeds\Tests\Stubs\ProductRepositoryDriver;
 use DescomMarket\Feeds\Tests\TestCase;
-use Google\Service\AdExchangeBuyerII\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class EnqueueUrlToIndexerTest extends TestCase
 {
-
     use RefreshDatabase;
 
     public function setUp(): void
@@ -22,7 +20,7 @@ class EnqueueUrlToIndexerTest extends TestCase
         config(['feeds-google.index.enabled' => true]);
     }
 
-    public function test_index_url()
+    public function testIndexUrl()
     {
         $url = 'https://www.pipo.es';
 
@@ -30,11 +28,11 @@ class EnqueueUrlToIndexerTest extends TestCase
 
         $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
-            'action' => 'index'
+            'action' => 'index',
         ]);
     }
 
-    public function test_index_url_twice()
+    public function testIndexUrlTwice()
     {
         $url = 'https://www.pipo.es';
 
@@ -44,7 +42,7 @@ class EnqueueUrlToIndexerTest extends TestCase
         $this->assertDatabaseCount('google_url_indexing_queue', 1);
     }
 
-    public function test_index_url_delete()
+    public function testIndexUrlDelete()
     {
         $url = 'https://www.descom.es';
 
@@ -54,7 +52,7 @@ class EnqueueUrlToIndexerTest extends TestCase
         $this->assertDatabaseCount('google_url_indexing_queue', 0);
     }
 
-    public function test_index_and_unindex_url()
+    public function testIndexAndUnindexUrl()
     {
         $url = 'https://www.descom.es';
 
@@ -64,7 +62,7 @@ class EnqueueUrlToIndexerTest extends TestCase
         $this->assertDatabaseCount('google_url_indexing_queue', 0);
     }
 
-    public function test_unindex_url()
+    public function testUnindexUrl()
     {
         $url = 'https://www.descom.es';
 
@@ -72,11 +70,11 @@ class EnqueueUrlToIndexerTest extends TestCase
 
         $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => $url,
-            'action' => 'unindex'
+            'action' => 'unindex',
         ]);
     }
 
-    public function test_product_index_if_published()
+    public function testProductIndexIfPublished()
     {
         ProductRepository::config(new ProductRepositoryDriver());
 
@@ -84,7 +82,7 @@ class EnqueueUrlToIndexerTest extends TestCase
 
         $this->assertDatabaseHas('google_url_indexing_queue', [
             'url' => 'https://example.com',
-            'action' => 'index'
+            'action' => 'index',
         ]);
     }
 

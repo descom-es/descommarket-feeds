@@ -29,6 +29,7 @@ class IndexUrlCommand extends Command
             } catch (Exception $exception) {
 
                 $this->error("Error indexando {$url}: " . $exception->getMessage());
+
                 break;
             }
         }

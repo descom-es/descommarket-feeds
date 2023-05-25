@@ -8,7 +8,6 @@ use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
 
 class ProductUnIndexInGoogleListener
 {
-
     public function handle(ProductUnpublished $event)
     {
         if (! config('feeds-google.index.enabled')) {
