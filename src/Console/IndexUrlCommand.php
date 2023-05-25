@@ -22,13 +22,17 @@ class IndexUrlCommand extends Command
         foreach ($urls as $url) {
             try {
                 $action = $url->action === 'index' ? new IndexUrlService() : new UnIndexUrlService();
-
                 $action->run($url->url);
 
                 $url->delete();
-            } catch (Exception $exception) {
 
-                $this->error("Error indexando {$url}: " . $exception->getMessage());
+                $this->info("{$url->url} indexed");
+                logger()->debug("[Google Search] url: {$url->url} indexed");
+            } catch (Exception $exception) {
+                $this->error("{$url}: " . $exception->getMessage());
+                logger()->debug("[Google Search Error] url: {$url->url} failed to indexed", [
+                    'message' => $exception->getMessage(),
+                ]);
 
                 break;
             }
