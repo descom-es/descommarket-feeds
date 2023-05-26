@@ -7,15 +7,19 @@ use DescomMarket\Feeds\Google\Index\Services\UnIndexUrlService;
 use DescomMarket\Feeds\Google\Models\UrlIndexingQueueModel;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Console\Scheduling\Schedule;
 
 class IndexUrlCommand extends Command
 {
-    protected $signature = 'feeds-google:index-urls';
+    protected $signature = 'dm360:google:index';
 
     protected $description = 'Index urls until exception urls';
 
     public function handle()
     {
+
+        $schedule = new Schedule();
+
 
         $urls = UrlIndexingQueueModel::orderBy('priority', 'asc')->get();
 

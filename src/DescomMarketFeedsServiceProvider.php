@@ -4,6 +4,7 @@ namespace DescomMarket\Feeds;
 
 use DescomMarket\Feeds\Console\IndexUrlCommand;
 use DescomMarket\Feeds\Providers\EventServiceProvider;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
 
 class DescomMarketFeedsServiceProvider extends ServiceProvider
@@ -26,6 +27,17 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
             $this->commands([
                 IndexUrlCommand::class,
             ]);
+
+            $this->registerScheduler();
         }
+    }
+
+    private function registerScheduler() {
+        if (! config('feeds-google.index.enabled')) {
+            return;
+        }
+
+        $schedule = $this->app->make(Schedule::class);
+        $schedule->command('dm360:google:index')->dailyAt('08:15');
     }
 }
