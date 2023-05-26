@@ -32,7 +32,8 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
         }
     }
 
-    private function registerScheduler() {
+    private function registerScheduler()
+    {
         if (! config('feeds-google.index.enabled')) {
             return;
         }
