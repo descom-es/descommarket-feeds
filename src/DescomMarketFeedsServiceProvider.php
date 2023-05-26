@@ -38,7 +38,8 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
             return;
         }
 
-        $schedule = $this->app->make(Schedule::class);
-        $schedule->command('dm360:google:index')->dailyAt('08:15');
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            $schedule->command('dm360:google:index')->dailyAt('08:15');
+        });
     }
 }
