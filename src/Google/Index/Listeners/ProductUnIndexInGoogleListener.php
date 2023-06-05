@@ -17,7 +17,7 @@ class ProductUnIndexInGoogleListener
         // TODO no lo encontrará quizas sea mejor idea conectar a la DB
         $product = ProductRepository::get($event->productId);
 
-        if (! $product) {
+        if (! $product || ! isset($product['url'])) {
             return;
         }
 
