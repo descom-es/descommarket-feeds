@@ -15,12 +15,12 @@ class ProductUnIndexInGoogleListener
         }
 
         // TODO no lo encontrará quizas sea mejor idea conectar a la DB
-        $product = ProductRepository::get($event->productId);
+        // $product = ProductRepository::get($event->productId);
 
-        if (! $product || ! isset($product['url'])) {
-            return;
-        }
+        // if (! $product || ! isset($product['url'])) {
+        //     return;
+        // }
 
-        EnqueueUrlService::unpublish($product['url']);
+        // EnqueueUrlService::unpublish($product['url']);
     }
 }

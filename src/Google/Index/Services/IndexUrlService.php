@@ -7,7 +7,7 @@ use Google\Service\Indexing\UrlNotification;
 
 class IndexUrlService
 {
-    public function run(string $url)
+    public function run(string $url): void
     {
         $enabled = config('feeds-google.index.enabled');
 
@@ -19,6 +19,6 @@ class IndexUrlService
         $urlNotification->setType('URL_UPDATED');
         $urlNotification->setUrl($url);
 
-        return GoogleServiceBuilder::googleIndex()->urlNotifications->publish($urlNotification);
+        GoogleServiceBuilder::googleIndex()->urlNotifications->publish($urlNotification);
     }
 }

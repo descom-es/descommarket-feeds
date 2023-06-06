@@ -4,10 +4,11 @@ namespace DescomMarket\Feeds\Google\Index\Services;
 
 use DescomMarket\Feeds\Google\GoogleServiceBuilder;
 use Google\Service\Indexing\UrlNotification;
+use Illuminate\Support\Facades\Http;
 
 class UnIndexUrlService
 {
-    public function run(string $url)
+    public function run(string $url): void
     {
         $enabled = config('feeds-google.index.enabled');
 
@@ -15,10 +16,19 @@ class UnIndexUrlService
             return;
         }
 
+        if (! $this->isNotFound($url)) {
+            return;
+        }
+
         $urlNotification = new UrlNotification();
         $urlNotification->setType('URL_DELETED');
         $urlNotification->setUrl($url);
 
-        return GoogleServiceBuilder::googleIndex()->urlNotifications->publish($urlNotification);
+        GoogleServiceBuilder::googleIndex()->urlNotifications->publish($urlNotification);
+    }
+
+    private function isNotFound(string $url): bool
+    {
+        return Http::get($url)->notFound();
     }
 }
