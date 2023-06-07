@@ -2,6 +2,7 @@
 
 namespace DescomMarket\Feeds;
 
+use DescomMarket\Feeds\Console\GetMostCompetitiveProductsCommand;
 use DescomMarket\Feeds\Console\IndexUrlCommand;
 use DescomMarket\Feeds\Providers\EventServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
@@ -26,6 +27,7 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
 
             $this->commands([
                 IndexUrlCommand::class,
+                GetMostCompetitiveProductsCommand::class
             ]);
 
             $this->registerScheduler();
@@ -34,7 +36,7 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
 
     private function registerScheduler()
     {
-        if (! config('feeds-google.index.enabled')) {
+        if (!config('feeds-google.index.enabled')) {
             return;
         }
 
