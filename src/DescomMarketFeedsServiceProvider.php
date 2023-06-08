@@ -27,7 +27,6 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
 
             $this->commands([
                 IndexUrlCommand::class,
-                GetMostCompetitiveProductsCommand::class
             ]);
 
             $this->registerScheduler();
