@@ -3,7 +3,6 @@
 namespace DescomMarket\Feeds\Google\Merchant\Services\Products\Transformer;
 
 use Closure;
-use DescomMarket\Feeds\Google\Merchant\Helper\CategoryTranslator;
 use Google\Service\ShoppingContent\Price;
 use Google\Service\ShoppingContent\Product;
 use Illuminate\Support\Str;
@@ -23,7 +22,7 @@ final class ProductTransformer
         $product->setContentLanguage('es');
         $product->setTitle($productData['name']);
 
-        if ( $productData['categoryInGoogleMerchant'] ?? null) {
+        if ($productData['categoryInGoogleMerchant'] ?? null) {
             $product->setGoogleProductCategory($productData['categoryInGoogleMerchant']);
         }
 
