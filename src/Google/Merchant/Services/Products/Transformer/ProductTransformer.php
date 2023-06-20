@@ -26,6 +26,10 @@ final class ProductTransformer
             $product->setGoogleProductCategory($productData['categoryInGoogleMerchant']);
         }
 
+        if ($productData['customLabel0'] ?? null) {
+            $product->setCustomLabel0($productData['customLabel0']);
+        }
+
         $product->setDescription((string)Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(5000));
         $product->setLink($productData['url']);
         $product->setImageLink($productData['image']['url']);
