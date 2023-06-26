@@ -30,7 +30,7 @@ final class ProductTransformer
             $product->setCustomLabel0($productData['customLabel0']);
         }
 
-        $product->setDescription((string)Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(5000));
+        $product->setDescription((string)Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(1000));
         $product->setLink($productData['url']);
         $product->setImageLink($productData['image']['url']);
         $product->setAvailability($productData['in_stock'] ? 'in stock' : 'out of stock');
