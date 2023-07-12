@@ -4,7 +4,7 @@ namespace DescomMarket\Feeds\Google\Merchant\Services\Products;
 
 use Carbon\Carbon;
 use DescomMarket\Feeds\Google\GoogleServiceBuilder;
-use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
+use DescomMarket\Feeds\Google\Merchant\Jobs\InsertProductInGoogleMerchantJob;
 
 class ProductsExpirationRenewService
 {
@@ -59,7 +59,7 @@ class ProductsExpirationRenewService
 
             if (Carbon::now()->diffInDays($googleExpirationDate) < $this->minExpirationDays) {
                 $productId = $this->cleanProductId($productStatus->getProductId());
-                event(new ProductPublished($productId));
+                InsertProductInGoogleMerchantJob::dispatch($productId);
             }
         }
     }
