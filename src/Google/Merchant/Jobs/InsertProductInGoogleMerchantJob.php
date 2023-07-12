@@ -22,6 +22,8 @@ class InsertProductInGoogleMerchantJob implements ShouldQueue
     {
         $this->delay = config('feeds-google.merchant.queue.delay', 60);
         $this->tries = config('feeds-google.merchant.queue.tries', 10);
+        $this->queue = config('feeds-google.merchant.queue.name', 'google_merchant');
+        $this->connection = config('feeds-google.merchant.queue.connection', 'sync');
     }
 
     public function handle()
