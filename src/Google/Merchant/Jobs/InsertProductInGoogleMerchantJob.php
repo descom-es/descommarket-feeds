@@ -2,18 +2,20 @@
 
 namespace DescomMarket\Feeds\Google\Merchant\Jobs;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
 use DescomMarket\Feeds\Google\Merchant\Services\Products\ProductInsertService;
-
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class InsertProductInGoogleMerchantJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public $delay;
     public $tries;
@@ -30,7 +32,7 @@ class InsertProductInGoogleMerchantJob implements ShouldQueue
     {
         $product = ProductRepository::get($this->productId);
 
-        if (!$product) {
+        if (! $product) {
             return;
         }
 
