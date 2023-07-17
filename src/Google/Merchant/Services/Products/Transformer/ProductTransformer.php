@@ -35,7 +35,7 @@ final class ProductTransformer
         $product->setImageLink($productData['image']['url']);
         $product->setAvailability($productData['in_stock'] ? 'in stock' : 'out of stock');
 
-        // $product->setProductTypes([self::productType($productData)]);
+        $product->setProductTypes([self::productType($productData)]);
 
         $product->setCondition('new');
         $product->setBrand($productData['brand']['name'] ?? null);
@@ -56,7 +56,7 @@ final class ProductTransformer
 
         $offer = self::offer($productData);
 
-        if (! is_null($offer)) {
+        if (!is_null($offer)) {
             $price = new Price();
             $price->setValue($offer);
             $price->setCurrency('EUR');
