@@ -80,7 +80,7 @@ final class ProductTransformer
 
     private static function shippingCost($productData): float
     {
-        $price = (float)($productData['extra']['data']['lowest_shipping_cost'] ?? 0) * 1.21;
+        $price = $productData['shipping_details']['price_with_tax'] ?? 0;
 
         return (float)number_format($price, 2, '.', '');
     }
