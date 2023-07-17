@@ -56,7 +56,7 @@ final class ProductTransformer
 
         $offer = self::offer($productData);
 
-        if (!is_null($offer)) {
+        if (! is_null($offer)) {
             $price = new Price();
             $price->setValue($offer);
             $price->setCurrency('EUR');
