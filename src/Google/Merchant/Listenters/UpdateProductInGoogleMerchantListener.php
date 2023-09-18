@@ -24,13 +24,13 @@ class UpdateProductInGoogleMerchantListener implements ShouldQueue
 
     public function handle(ProductUpdated $event)
     {
-        if (! $this->attributesChanged($event->attributesChanged)) {
+        if (!$this->attributesChanged($event->attributesChanged)) {
             return;
         }
 
         $product = ProductRepository::get($event->productId);
 
-        if (! $product) {
+        if (!$product) {
             return;
         }
 
@@ -59,6 +59,7 @@ class UpdateProductInGoogleMerchantListener implements ShouldQueue
                 'price',
                 'offers',
                 'extra',
+                'gtin8'
             ]);
         });
 
