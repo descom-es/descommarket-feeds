@@ -12,6 +12,7 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/feeds-google.php', 'feeds-google');
+        $this->mergeConfigFrom(__DIR__ . '/../config/feeds-meta.php', 'feeds-meta');
         $this->app->register(EventServiceProvider::class);
     }
 
@@ -34,7 +35,7 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
 
     private function registerScheduler()
     {
-        if (! config('feeds-google.index.enabled')) {
+        if (!config('feeds-google.index.enabled')) {
             return;
         }
 
