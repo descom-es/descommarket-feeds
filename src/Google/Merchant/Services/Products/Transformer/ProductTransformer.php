@@ -63,6 +63,14 @@ final class ProductTransformer
             $product->setSalePrice($price);
         }
 
+        if ($productData['excludeAds'] ?? false) {
+            $product->setExcludedDestinations([
+                'Shopping_ads',
+                'Display_ads',
+                'Local_inventory_ads',
+            ]);
+        }
+
         return $product;
     }
 
