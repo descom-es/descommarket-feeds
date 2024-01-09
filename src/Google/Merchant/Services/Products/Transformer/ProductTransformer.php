@@ -12,8 +12,6 @@ final class ProductTransformer
     {
         $product = new Product();
 
-        $categoryInGoogleMerchant = $productData['categoryInGoogleMerchant'] ?? null;
-
         $product->setId($productData['sku']);
         $product->setOfferId($productData['id']);
         $product->setChannel('online');
