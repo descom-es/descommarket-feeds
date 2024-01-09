@@ -60,6 +60,8 @@ class UpdateProductInGoogleMerchantListener implements ShouldQueue
                 'offers',
                 'extra',
                 'shipping_details',
+                'name',
+                'description',
             ]);
         });
 
