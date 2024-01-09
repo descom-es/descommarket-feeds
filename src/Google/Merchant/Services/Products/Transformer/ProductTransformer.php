@@ -2,7 +2,6 @@
 
 namespace DescomMarket\Feeds\Google\Merchant\Services\Products\Transformer;
 
-use Closure;
 use Google\Service\ShoppingContent\Price;
 use Google\Service\ShoppingContent\Product;
 use Illuminate\Support\Str;
@@ -72,13 +71,6 @@ final class ProductTransformer
         }
 
         return $product;
-    }
-
-    private function transformerDriver(): Closure
-    {
-        return self::$transformerDriver ?? function ($productData) {
-            return $productData;
-        };
     }
 
     private static function offer($productData): ?float

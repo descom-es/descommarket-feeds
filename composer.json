@@ -12,6 +12,7 @@
     "require": {
         "php": "^8.0",
         "descom/descommarket_common": "^1.2",
+        "descom/pipeline": "^2.2",
         "google/apiclient": "^2.12.1",
         "illuminate/console": "*",
         "illuminate/database": "*",
@@ -20,7 +21,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.4",
         "guzzlehttp/guzzle": "^7.5",
-        "nunomaduro/larastan": "^2.0",
+        "larastan/larastan": "^2.8",
         "orchestra/testbench": "^7.5|^8.0",
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.3"
