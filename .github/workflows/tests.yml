@@ -1,4 +1,4 @@
-name: tests
+name: Tests
 
 on:
   push:
@@ -7,10 +7,11 @@ on:
     branches: [master]
 
 jobs:
-  test:
+  phpunit:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: true
       matrix:
         php: [8.1, 8.2, 8.3]
         laravel: [9.*, 10.*, 11.*]
@@ -28,30 +29,31 @@ jobs:
             php: 8.1
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: curl, pdo, sqlite, pdo_sqlite
-          coverage: xdebug
 
-      - name: Install Dependencies
+      - name: Install SQLite 3
         run: |
           sudo apt-get update
           sudo apt-get install sqlite3
 
-      - name: Validate composer.json and composer.lock
+      - name: Validate composer.json
         run: composer validate
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}-
 
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
@@ -60,4 +62,4 @@ jobs:
           composer update --prefer-stable --prefer-dist --no-interaction
 
       - name: Run test phpunit
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --stop-on-error --stop-on-failure
