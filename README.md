@@ -1,3 +1,9 @@
+# Descom Market Feeds
+
+[![tests](https://github.com/descom-es/descommarket-feeds/actions/workflows/tests.yml/badge.svg)](https://github.com/descom-es/descommarket-feeds/actions/workflows/tests.yml)
+[![analyze](https://github.com/descom-es/descommarket-feeds/actions/workflows/analyze.yml/badge.svg)](https://github.com/descom-es/descommarket-feeds/actions/workflows/analyze.yml)
+[![style](https://github.com/descom-es/descommarket-feeds/actions/workflows/style_fix.yml/badge.svg)](https://github.com/descom-es/descommarket-feeds/actions/workflows/style_fix.yml)
+
 ## Add to .env
 
 ```bash
