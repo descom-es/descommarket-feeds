@@ -34,7 +34,7 @@ final class ProductTransformer
 
         $product->setProductTypes([self::productType($productData)]);
 
-        $product->setCondition('new');
+        $product->setCondition($productData['condition'] ?? 'new');
         $product->setBrand($productData['brand']['name'] ?? null);
         $product->setGtin($productData['gtin'] ?? null);
 
