@@ -3,7 +3,6 @@
 namespace DescomMarket\Feeds\Google\Index\Listeners;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductUnpublished;
-use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;
 use DescomMarket\Feeds\Google\Index\Services\EnqueueUrlService;
 
 class ProductUnIndexInGoogleListener
