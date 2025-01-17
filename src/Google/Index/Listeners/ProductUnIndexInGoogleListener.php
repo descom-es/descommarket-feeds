@@ -14,13 +14,12 @@ class ProductUnIndexInGoogleListener
             return;
         }
 
-        // TODO no lo encontrará quizas sea mejor idea conectar a la DB
-        // $product = ProductRepository::get($event->productId);
+        $url = $event->attributes['url'] ?? null;
 
-        // if (! $product || ! isset($product['url'])) {
-        //     return;
-        // }
+        if (! $url) {
+            return;
+        }
 
-        // EnqueueUrlService::unpublish($product['url']);
+        EnqueueUrlService::unpublish($url);
     }
 }
