@@ -32,7 +32,7 @@ class ProductIndexInGoogleListener
             return false;
         }
 
-        if ($robots && str_contains($robots, 'noindex')) {
+        if (str_contains($robots, 'noindex')) {
             return true;
         }
 
