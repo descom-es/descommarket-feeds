@@ -16,7 +16,7 @@ class ProductIndexInGoogleListener
 
         $product = ProductRepository::get($event->productId);
 
-        if (! $product) {
+        if (! $product || $product['noindex'] ?? false) {
             return;
         }
 
