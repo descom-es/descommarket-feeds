@@ -26,16 +26,8 @@ class ProductIndexInGoogleListener
 
     public function getNoIndex($product): bool
     {
-        $robots = $product['meta']['robots'] ?? false;
+        $robots = $product['meta']['robots'] ?? '';
 
-        if (!$robots) {
-            return false;
-        }
-
-        if (str_contains($robots, 'noindex')) {
-            return true;
-        }
-
-        return false;
+        return str_contains($robots, 'noindex');
     }
 }
