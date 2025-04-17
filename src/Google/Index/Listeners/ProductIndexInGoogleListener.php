@@ -15,11 +15,19 @@ class ProductIndexInGoogleListener
         }
 
         $product = ProductRepository::get($event->productId);
+        $noIndex = $this->getNoIndex($product);
 
-        if (! $product) {
+        if (! $product || $noIndex) {
             return;
         }
 
         EnqueueUrlService::publish($product['url'], 10);
+    }
+
+    public function getNoIndex($product): bool
+    {
+        $robots = $product['meta']['robots'] ?? '';
+
+        return str_contains($robots, 'noindex');
     }
 }
