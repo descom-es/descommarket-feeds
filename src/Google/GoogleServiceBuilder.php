@@ -24,17 +24,16 @@ final class GoogleServiceBuilder
     {
         $credentials = config('feeds-google.api.credentials.path');
 
-        if (! $credentials) {
+        if (!$credentials) {
             throw new \Exception('No can connect to Google without credentials json file');
         }
 
-        if (! self::$client) {
+        if (!self::$client) {
             self::$client = new Client();
 
             self::$client->setAuthConfig($credentials);
 
             self::$client->addScope($scopes);
-
         }
 
 

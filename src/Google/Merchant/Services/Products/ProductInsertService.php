@@ -11,7 +11,7 @@ class ProductInsertService
     {
         $merchantId = config('feeds-google.merchant.id');
 
-        if (! $merchantId) {
+        if (!$merchantId) {
             return;
         }
 
