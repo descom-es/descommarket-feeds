@@ -10,21 +10,21 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "descom/descommarket_common": "^1.7",
         "descom/pipeline": "^2.4",
         "google/apiclient": "^2.12.1",
         "illuminate/console": "*",
         "illuminate/database": "*",
-        "laravel/framework": "^11.0|^12.0"
+        "laravel/framework": "^12.0|^13.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.75",
         "guzzlehttp/guzzle": "^7.8",
         "larastan/larastan": "^3.0",
-        "orchestra/testbench": "^9.0|^10.0",
+        "orchestra/testbench": "^10.0|^11.0",
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^10.5|^11.5"
+        "phpunit/phpunit": "^11.5"
     },
     "autoload": {
         "psr-4": {
@@ -37,7 +37,7 @@
         }
     },
     "scripts": {
-        "test": "./vendor/bin/testbench package:test --parallel --no-coverage"
+        "test": "./vendor/bin/phpunit --stop-on-error --stop-on-failure"
     },
     "config": {
         "sort-packages": true
