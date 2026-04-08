@@ -4,13 +4,14 @@ namespace DescomMarket\Feeds\Google\Merchant\Services\Products\Transformer;
 
 use Google\Service\ShoppingContent\Price;
 use Google\Service\ShoppingContent\Product;
+use Google\Service\ShoppingContent\ProductShipping;
 use Illuminate\Support\Str;
 
 final class ProductTransformer
 {
     public static function transform(array $productData): Product
     {
-        $product = new Product();
+        $product = new Product;
 
         $product->setId($productData['sku']);
         $product->setOfferId($productData['id']);
@@ -27,7 +28,7 @@ final class ProductTransformer
             $product->setCustomLabel0($productData['customLabel0']);
         }
 
-        $product->setDescription((string)Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(1000));
+        $product->setDescription((string) Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(1000));
         $product->setLink($productData['url']);
         $product->setImageLink($productData['image']['url']);
         $product->setAvailability($productData['in_stock'] ? 'in stock' : 'out of stock');
@@ -38,24 +39,26 @@ final class ProductTransformer
         $product->setBrand($productData['brand']['name'] ?? null);
         $product->setGtin($productData['gtin'] ?? null);
 
-        $price = new Price();
+        $price = new Price;
         $price->setValue($productData['price']);
         $price->setCurrency('EUR');
         $product->setPrice($price);
 
-        $product->setShipping([
-            'country' => 'ES',
-            'price' => [
-                'value' => self::shippingCost($productData),
-                'currency' => 'EUR',
-            ],
-        ]);
+        $priceShipping = new Price;
+        $priceShipping->setCurrency('EUR');
+        $priceShipping->setValue((string) self::shippingCost($productData));
+
+        $productShipping = new ProductShipping;
+        $productShipping->setCountry('ES');
+        $productShipping->setPrice($priceShipping);
+
+        $product->setShipping([$productShipping]);
 
         $offer = self::offer($productData);
 
         if (! is_null($offer)) {
-            $price = new Price();
-            $price->setValue($offer);
+            $price = new Price;
+            $price->setValue((string) $offer);
             $price->setCurrency('EUR');
             $product->setSalePrice($price);
         }
@@ -80,7 +83,7 @@ final class ProductTransformer
     {
         $price = $productData['shipping_details']['price_with_tax'] ?? 0;
 
-        return (float)number_format($price, 2, '.', '');
+        return (float) number_format($price, 2, '.', '');
     }
 
     private static function productType($productData): string
