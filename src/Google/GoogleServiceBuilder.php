@@ -15,7 +15,7 @@ final class GoogleServiceBuilder
         return self::service(ShoppingContent::class, ShoppingContent::CONTENT);
     }
 
-    public static function googleIndex(): INDEXING
+    public static function googleIndex(): Indexing
     {
         return self::service(Indexing::class, Indexing::INDEXING);
     }
@@ -29,14 +29,13 @@ final class GoogleServiceBuilder
         }
 
         if (! self::$client) {
-            self::$client = new Client();
+            self::$client = new Client;
 
             self::$client->setAuthConfig($credentials);
 
             self::$client->addScope($scopes);
 
         }
-
 
         return new $serviceClassName(self::$client);
     }
