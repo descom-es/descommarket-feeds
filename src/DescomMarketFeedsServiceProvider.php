@@ -2,6 +2,7 @@
 
 namespace DescomMarket\Feeds;
 
+use DescomMarket\Feeds\Console\GoogleMerchantDeveloperRegistrationCommand;
 use DescomMarket\Feeds\Console\IndexUrlCommand;
 use DescomMarket\Feeds\Providers\EventServiceProvider;
 use Illuminate\Console\Scheduling\Schedule;
@@ -26,6 +27,7 @@ class DescomMarketFeedsServiceProvider extends ServiceProvider
 
             $this->commands([
                 IndexUrlCommand::class,
+                GoogleMerchantDeveloperRegistrationCommand::class,
             ]);
 
             $this->registerScheduler();

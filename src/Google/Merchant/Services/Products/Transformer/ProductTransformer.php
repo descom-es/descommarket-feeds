@@ -2,76 +2,105 @@
 
 namespace DescomMarket\Feeds\Google\Merchant\Services\Products\Transformer;
 
-use Google\Service\ShoppingContent\Price;
-use Google\Service\ShoppingContent\Product;
-use Google\Service\ShoppingContent\ProductShipping;
+use Google\Shopping\Merchant\Products\V1\Availability;
+use Google\Shopping\Merchant\Products\V1\Condition;
+use Google\Shopping\Merchant\Products\V1\ProductAttributes;
+use Google\Shopping\Merchant\Products\V1\ProductInput;
+use Google\Shopping\Merchant\Products\V1\Shipping;
+use Google\Shopping\Type\Destination\DestinationEnum;
+use Google\Shopping\Type\Price;
 use Illuminate\Support\Str;
 
 final class ProductTransformer
 {
-    public static function transform(array $productData): Product
-    {
-        $product = new Product;
+    private const CURRENCY = 'EUR';
 
-        $product->setId($productData['sku']);
-        $product->setOfferId($productData['id']);
-        $product->setChannel('online');
-        $product->setTargetCountry('ES');
-        $product->setContentLanguage('es');
-        $product->setTitle($productData['name']);
+    public static function transform(array $productData): ProductInput
+    {
+        $attributes = new ProductAttributes();
+
+        $attributes->setTitle($productData['name']);
 
         if ($productData['categoryInGoogleMerchant'] ?? null) {
-            $product->setGoogleProductCategory($productData['categoryInGoogleMerchant']);
+            $attributes->setGoogleProductCategory($productData['categoryInGoogleMerchant']);
         }
 
         if ($productData['customLabel0'] ?? null) {
-            $product->setCustomLabel0($productData['customLabel0']);
+            $attributes->setCustomLabel0($productData['customLabel0']);
         }
 
-        $product->setDescription((string) Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(1000));
-        $product->setLink($productData['url']);
-        $product->setImageLink($productData['image']['url']);
-        $product->setAvailability($productData['in_stock'] ? 'in stock' : 'out of stock');
+        $attributes->setDescription((string) Str::of(html_entity_decode(strip_tags($productData['description'])))->limit(1000));
+        $attributes->setLink($productData['url']);
+        $attributes->setImageLink($productData['image']['url']);
+        $attributes->setAvailability($productData['in_stock'] ? Availability::IN_STOCK : Availability::OUT_OF_STOCK);
 
-        $product->setProductTypes([self::productType($productData)]);
+        $attributes->setProductTypes([self::productType($productData)]);
 
-        $product->setCondition($productData['condition'] ?? 'new');
-        $product->setBrand($productData['brand']['name'] ?? null);
-        $product->setGtin($productData['gtin'] ?? null);
+        $attributes->setCondition(self::condition($productData['condition'] ?? 'new'));
 
-        $price = new Price;
-        $price->setValue($productData['price']);
-        $price->setCurrency('EUR');
-        $product->setPrice($price);
+        // Los setters de protobuf no admiten null, al contrario que los del
+        // cliente antiguo.
+        if ($productData['brand']['name'] ?? null) {
+            $attributes->setBrand($productData['brand']['name']);
+        }
 
-        $priceShipping = new Price;
-        $priceShipping->setCurrency('EUR');
-        $priceShipping->setValue((string) self::shippingCost($productData));
+        if ($productData['gtin'] ?? null) {
+            $attributes->setGtins([$productData['gtin']]);
+        }
 
-        $productShipping = new ProductShipping;
-        $productShipping->setCountry('ES');
-        $productShipping->setPrice($priceShipping);
+        $attributes->setPrice(self::price($productData['price']));
 
-        $product->setShipping([$productShipping]);
+        $shipping = new Shipping();
+        $shipping->setCountry('ES');
+        $shipping->setPrice(self::price(self::shippingCost($productData)));
+
+        $attributes->setShipping([$shipping]);
 
         $offer = self::offer($productData);
 
         if (! is_null($offer)) {
-            $price = new Price;
-            $price->setValue((string) $offer);
-            $price->setCurrency('EUR');
-            $product->setSalePrice($price);
+            $attributes->setSalePrice(self::price($offer));
         }
 
         if ($productData['excludeAds'] ?? false) {
-            $product->setExcludedDestinations([
-                'Shopping_ads',
-                'Display_ads',
-                'Local_inventory_ads',
+            $attributes->setExcludedDestinations([
+                DestinationEnum::SHOPPING_ADS,
+                DestinationEnum::DISPLAY_ADS,
+                DestinationEnum::LOCAL_INVENTORY_ADS,
             ]);
         }
 
-        return $product;
+        $productInput = new ProductInput();
+
+        $productInput->setOfferId((string) $productData['id']);
+        $productInput->setContentLanguage(config('feeds-google.merchant.content_language', 'es'));
+        $productInput->setFeedLabel(config('feeds-google.merchant.feed_label', 'ES'));
+        $productInput->setProductAttributes($attributes);
+
+        return $productInput;
+    }
+
+    /**
+     * Merchant API pide el importe en micros, no la cadena "12.34" de la
+     * Content API.
+     */
+    private static function price(string|float|int $amount): Price
+    {
+        $price = new Price();
+
+        $price->setAmountMicros((int) round(((float) $amount) * 1000000));
+        $price->setCurrencyCode(self::CURRENCY);
+
+        return $price;
+    }
+
+    private static function condition(string $condition): int
+    {
+        return match ($condition) {
+            'used' => Condition::USED,
+            'refurbished' => Condition::REFURBISHED,
+            default => Condition::PBNEW,
+        };
     }
 
     private static function offer($productData): ?float
