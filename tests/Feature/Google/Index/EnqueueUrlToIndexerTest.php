@@ -1,6 +1,6 @@
 <?php
 
-namespace DescomMarket\Feeds\Google;
+namespace DescomMarket\Feeds\Tests\Feature\Google\Index;
 
 use DescomMarket\Common\Events\Catalog\Products\ProductPublished;
 use DescomMarket\Common\Repositories\Catalog\Products\ProductRepository;

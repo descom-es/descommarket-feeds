@@ -4,16 +4,10 @@ namespace DescomMarket\Feeds\Google;
 
 use Google\Client;
 use Google\Service\Indexing;
-use Google\Service\ShoppingContent;
 
 final class GoogleServiceBuilder
 {
     private static ?Client $client = null;
-
-    public static function googleMerchant(): ShoppingContent
-    {
-        return self::service(ShoppingContent::class, ShoppingContent::CONTENT);
-    }
 
     public static function googleIndex(): Indexing
     {
@@ -29,7 +23,7 @@ final class GoogleServiceBuilder
         }
 
         if (! self::$client) {
-            self::$client = new Client;
+            self::$client = new Client();
 
             self::$client->setAuthConfig($credentials);
 
