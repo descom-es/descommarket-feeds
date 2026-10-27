@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^8.4",
-        "descom/descommarket_common": "^1.8",
+        "descom/descommarket_common": "^1.8|^2.0",
         "descom/pipeline": "^2.4",
         "google/apiclient": "^2.12.1",
         "google/shopping-merchant-datasources": "^1.3",
